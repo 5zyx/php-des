@@ -29,11 +29,24 @@ class Des {
     private function __clone() {
     }
 
+    /**
+     * @desc 获取句柄标识
+     * @param $params
+     * @return mixed
+     */
     private static function _getHandleKey($params){
         ksort($params);
         return md5(implode('_', $params));
     }
 
+    /**
+     * @desc 创建一个加密对象
+     * @param $mode 加密类型 
+     * @param $secretKey    密钥
+     * @param null $iv      IV
+     * @return mixed
+     * @throws Exception
+     */
     public static function getInstance( $mode, $secretKey, $iv = null ){
 
         if ( empty($secretKey) ){
@@ -82,9 +95,26 @@ spl_autoload_register(function( $className ){
 });
 
 
-$desInstance = Des::getInstance( DES::MODE_AES, 'des_key' );
+$aes = Des::getInstance( DES::MODE_AES, 'des_key' );
 
-var_dump($desInstance->encrypt('abcdefg'));
+var_dump($aes->encrypt('abcdefg'));
 
-var_dump( $desInstance->decrypt('GlU3LwJlug19WbslKWcG') );
+var_dump( $aes->decrypt('GlU3LwJlug19WbslKWcG') );
+
+echo "<hr />";
+
+$des = Des::getInstance( DES::MODE_DES, '12345678' );
+
+var_dump($des->encrypt('abcdefg'));
+
+var_dump( $des->decrypt('7vi5Zfc+qQ4='));
+
+echo "<hr />";
+
+$des3 = Des::getInstance( Des::MODE_3DES, '&*(&Q13S', "3)(!U1#!" );
+
+var_dump( $des3->encrypt('abcdefg'));
+
+var_dump( $des3->decrypt('Et14K5NpEgY=') );
+
 
